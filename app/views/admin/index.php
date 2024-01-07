@@ -26,7 +26,7 @@
                 >
                   Publications 
                 </h6>
-                <span class="text-xl font-semibold">333</span>
+                <span class="text-xl font-semibold"><?php echo $_SESSION['fullName'] ?></span>
                 
               </div>
               <div>
