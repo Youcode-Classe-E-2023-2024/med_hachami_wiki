@@ -8,7 +8,7 @@ Class Admin extends Controller{
        
     }
     public function index(){
-        return;
+        return $this->view('admin/index');
     }
 
     
