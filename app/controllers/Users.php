@@ -10,7 +10,75 @@ Class Users extends Controller{
     }
     public function index()
     {
-        echo json_encode("hello");
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            // Init data
+            $data = [
+              'email' => trim($_POST['email']),
+              'password' => trim($_POST['password']),
+              'error' => '',
+              
+            ];
+      
+            // Validate Email
+            if (empty($data['email'])) {
+              $data['error'] = 'Pleae enter email';
+            }
+      
+            // Validate Password
+            if (empty($data['error'])) {
+              $data['password_err'] = 'Please enter password';
+            }
+            if (empty($data['error']) ) {
+              if ($this->userModel->findUserByEmail($data['email'])) {
+                $loggedInUser = $this->userModel->login($data['email'], $data['password']);
+                if ($loggedInUser) {
+                    
+                  $this->createUserSession($loggedInUser);
+                } else {
+                  // User Password incorrect
+                  $data['error'] = 'Bad Credentials';
+                  
+                  $this->view('auth', $data);
+                }
+              } else {
+                // User not found
+                $data['error'] = 'Bad Credentials';
+                $this->view('auth', $data);
+              }
+            } else {
+              
+              $this->view('auth', $data);
+            }
+        }else{
+            $this->view('auth');
+        }
+    }
+
+    
+
+    private function createUserSession($user)
+    {
+  
+      $_SESSION['user_id'] = $user->id;
+      $_SESSION['fullName'] = $user->full_name;
+      $_SESSION['email'] = $user->email;
+      $_SESSION['userImg'] = $user->imgUrl;
+      $_SESSION['roleId'] = $user->roleId;
+      
+      $this->view('admin/index');
+    }
+
+
+    public function logout()
+    {
+        unset($_SESSION['user_id']);
+        unset($_SESSION['fullName']);
+        unset($_SESSION['email']);
+        unset($_SESSION['roleId']);
+        session_destroy();
+        // $this->view('auth');
+        redirect("users");
     }
 
     public function register(){
