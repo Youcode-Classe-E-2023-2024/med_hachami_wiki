@@ -40,7 +40,7 @@ Class User{
          
           $hashed_password = $row->password;
           if(password_verify($password, $hashed_password)){
-            $this->db->query('SELECT id,email,full_name , imgUrl FROM user WHERE email = :email ');
+            $this->db->query('SELECT id,email,full_name , imgUrl , roleId FROM user WHERE email = :email ');
             $this->db->bind(':email', $email);
             return $this->db->single();
           } else {
