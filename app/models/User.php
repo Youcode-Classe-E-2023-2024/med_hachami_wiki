@@ -7,11 +7,12 @@ Class User{
     }
 
     public function register($data){
-        $this->db->query("INSERT INTO user (full_name , email , password , imgUrl) VALUES (:full_name , :email , :password , :imgUrl) ");
+        $this->db->query("INSERT INTO user (full_name , email , password , imgUrl , roleId) VALUES (:full_name , :email , :password , :imgUrl , :roleId) ");
         $this->db->bind(':full_name' , $data['full_name'] );
         $this->db->bind(':email' , $data['email'] );
         $this->db->bind(':password' , $data['password'] );
         $this->db->bind(':imgUrl' , $data['image'] );
+        $this->db->bind(':roleId' , 2 );
 
         return $this->db->execute();
     }
