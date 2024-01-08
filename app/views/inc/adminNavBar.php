@@ -25,7 +25,7 @@
                 href="#"
                 class="inline-block text-2xl font-bold tracking-wider uppercase text-primary-dark dark:text-light"
               >
-                AVITO
+                WIKI
               </a>
 
               <!-- Mobile sub menu button -->
@@ -326,11 +326,11 @@
                       Home
                     </a>
                     <a
-                      href="<?php echo URLROOT . '/admin/publications' ?>"
+                      href="<?php echo URLROOT . '/admin/categories' ?>"
                       role="menuitem"
                       class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md dark:hover:text-light hover:text-gray-700"
                     >
-                      Publication
+                    Categories
                     </a>
 
                   </div>
