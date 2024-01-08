@@ -121,7 +121,7 @@ function editCategory(ev){
 }
 
 
-// edit modal
+// delete modal
 function deleteModal(ev,categoryId) {
     ev.preventDefault();
     
