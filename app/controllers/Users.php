@@ -60,13 +60,18 @@ Class Users extends Controller{
     private function createUserSession($user)
     {
   
-      $_SESSION['user_id'] = $user->id;
-      $_SESSION['fullName'] = $user->full_name;
-      $_SESSION['email'] = $user->email;
-      $_SESSION['userImg'] = $user->imgUrl;
-      $_SESSION['roleId'] = $user->roleId;
+        if($user->roleId == 1){
+               $_SESSION['user_id'] = $user->id;
+            $_SESSION['fullName'] = $user->full_name;
+            $_SESSION['email'] = $user->email;
+            $_SESSION['userImg'] = $user->imgUrl;
+            $_SESSION['roleId'] = $user->roleId;
+            redirect("admin");
+        }else{
+           redirect("auth");
+        }
       
-      $this->view('admin/index');
+      
     }
 
 
