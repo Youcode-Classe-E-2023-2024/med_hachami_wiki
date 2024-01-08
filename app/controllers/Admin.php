@@ -6,9 +6,9 @@ Class Admin extends Controller{
     private $tagsModel;
 
     public function __construct(){
-    //    if(!adminIsLoggedIn()){
-    //         $this->view('auth');
-    //    }
+       if(!adminIsLoggedIn()){
+            $this->view('auth');
+       }
        $this->categoryModel = $this->model('Category');
        $this->tagsModel = $this->model('Tag');
     }
