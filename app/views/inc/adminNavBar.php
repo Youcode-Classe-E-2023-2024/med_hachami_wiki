@@ -332,6 +332,13 @@
                     >
                     Categories
                     </a>
+                    <a
+                      href="<?php echo URLROOT . '/admin/tags' ?>"
+                      role="menuitem"
+                      class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md dark:hover:text-light hover:text-gray-700"
+                    >
+                    Tags
+                    </a>
 
                   </div>
                 </div>
