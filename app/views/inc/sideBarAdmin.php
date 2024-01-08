@@ -90,11 +90,11 @@
                     Home
                   </a>
                   <a
-                    href="<?php echo URLROOT . '/admin/publications' ?>"
+                    href="<?php echo URLROOT . '/admin/categories' ?>"
                     role="menuitem"
                     class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md dark:hover:text-light hover:text-gray-700"
                   >
-                   Publications
+                  Categories
                   </a>
 
                 </div>
