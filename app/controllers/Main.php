@@ -2,13 +2,65 @@
 
 Class Main extends Controller{
 
+    private $tagModel;
+    private $categoryModel;
+    private $wikiModel;
     
 
     public function __construct(){
-       
+       $this->tagModel = $this->model("Tag");
+       $this->categoryModel = $this->model("Category");
+       $this->wikiModel = $this->model("Wiki");
+
     }
     public function index(){
         return;
+    }
+
+    public function allTags(){
+        // AuthMiddleware::authenticate();
+        $tags = $this->tagModel->allTags();
+        echo json_encode($tags);
+    }
+
+    public function allCategories(){
+        // AuthMiddleware::authenticate();
+        $categories = $this->categoryModel->allCategories();
+        echo json_encode($categories);
+    }
+
+    public function newWiki(){
+        $decodeToken = AuthMiddleware::authenticate();
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $postData = file_get_contents("php://input");
+            $data = json_decode($postData, true);
+            if ($data !== null && !empty($data['title']) && !empty($data['description'])
+                 && !empty($data['tags'])  && !empty($data['category']) 
+                ) {
+                    $userId = $decodeToken->id;
+                    // $userId = 2;
+                    $addedWiki =$this->wikiModel->addWiki($data , $userId);
+                    if($addedWiki){
+                        echo json_encode(['message' => 'Wiki Added Succe']);
+                    }
+                    else{
+                        echo json_encode(['error' => 'Addition Failed']);
+                    } 
+                
+            }
+            else {
+               
+                http_response_code(400); 
+                echo json_encode(['error' => 'Invalid JSON payload']);
+            }
+        }
+       
+    }
+
+    public function allWikis(){
+        // AuthMiddleware::authenticate();
+        $wikis = $this->wikiModel->getAllWikis();
+        echo json_encode($wikis);
     }
 
     
