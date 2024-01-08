@@ -3,12 +3,14 @@
 Class Admin extends Controller{
 
     private $categoryModel;
+    private $tagsModel;
 
     public function __construct(){
     //    if(!adminIsLoggedIn()){
     //         $this->view('auth');
     //    }
        $this->categoryModel = $this->model('Category');
+       $this->tagsModel = $this->model('Tag');
     }
     public function index(){
         
@@ -71,10 +73,72 @@ Class Admin extends Controller{
         }
         
     }
+    public function tags(){
+        $tags = $this->tagsModel->allTags();
+        $data=[
+            'tags'=>$tags
+        ];
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $json = file_get_contents('php://input');
+            $postData = json_decode($json, true);
+            
+            $postData=[
+                "name"=>trim($postData['name']),
+                "description"=>trim($postData['description']),
+            ];
+            $addedTag = $this->tagsModel->addNewTag($postData);
+            if($addedTag){
+                
+                echo json_encode(["message"=>"tag added successfully"]);
+            }else{
+                echo json_encode(["error"=>"error creating tag"]);
+            }
+        }else if($_SERVER['REQUEST_METHOD'] == 'PUT'){
+            $json = file_get_contents('php://input');
+            $postData = json_decode($json, true);
+            $postData=[
+                "id"=>trim($postData["id"]),
+                "name"=>trim($postData['name']),
+                "description"=>trim($postData['description']),
+            ];
+            $editedtag = $this->tagsModel->editTag($postData);
+            if($editedtag){
+                
+                echo json_encode(["message"=>"tag edited successfully"]);
+            }else{
+                echo json_encode(["error"=>"error editing tag"]);
+            }
+        }
+        else if($_SERVER['REQUEST_METHOD'] == 'DELETE'){
+            $json = file_get_contents('php://input');
+            $postData = json_decode($json, true);
+            $postData=[
+                "id"=>trim($postData["id"]),
+                
+            ];
+            $deletedTag = $this->tagsModel->deleteTag($postData);
+            if($deletedTag){
+                
+                echo json_encode(["message"=>"tag deleted successfully"]);
+            }else{
+                echo json_encode(["error"=>"error deleting tag"]);
+            }
+        }
+        else{
+            return $this->view("admin/tags" , $data);
+        }
+        
+    }
 
     public function category($id){
         $category = $this->categoryModel->getCategoryById($id);
         echo json_encode($category);
+
+    }
+
+    public function tag($id){
+        $tag = $this->tagsModel->getTagyById($id);
+        echo json_encode($tag);
 
     }
 
