@@ -36,6 +36,37 @@ Class Wiki{
 
         return $this->db->resultSet();
     }
+    public function getMyWiki($userId){
+        $this->db->query("
+        SELECT
+        DISTINCT wiki.*,
+        user.id as creatorId,
+        user.full_name as creatorName,
+        user.imgUrl as creatorImg,
+        category.name as category,
+        GROUP_CONCAT(DISTINCT tag.name) as tags
+    FROM
+        wiki
+    JOIN category ON wiki.category_id = category.id
+    INNER JOIN wiki_tag ON wiki.id = wiki_tag.wiki_id
+    INNER JOIN tag ON wiki_tag.tag_id = tag.id
+    INNER JOIN user ON wiki.created_by = user.id
+    AND user.id=:creatorId
+    GROUP BY
+        wiki.id,
+        wiki.title,
+        wiki.content,
+        wiki.created_at,
+        creatorId,
+        creatorName,
+        creatorImg,
+        category,
+        status;
+        
+        ");
+        $this->db->bind(":creatorId" , $userId);
+        return $this->db->resultSet();
+    }
     public function addWiki($data , $userId){
         $this->db->query("INSERT INTO wiki (title, content, created_by, category_id)
                   VALUES (:title, :content, :created_by, :category_id)");
@@ -64,11 +95,13 @@ Class Wiki{
         
     }
 
-    // public function getTagyById($id){
-    //     $this->db->query("SELECT * FROM tag where id = :id");
-    //     $this->db->bind(":id" , $id);
-    //     return $this->db->single();
-    // }
+    public function editMyWiki($data){
+        $this->db->query("UPDATE wiki SET title = :title , content = :content WHERE id = :id");
+        $this->db->bind(":title" , $data['title']);
+        $this->db->bind(":content" , $data['content']);
+        $this->db->bind(":id" , $data['wikiId']);
+        return $this->db->execute();
+    }
 
     
 
