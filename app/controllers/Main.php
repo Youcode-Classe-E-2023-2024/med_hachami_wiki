@@ -18,13 +18,13 @@ Class Main extends Controller{
     }
 
     public function allTags(){
-        // AuthMiddleware::authenticate();
+        AuthMiddleware::authenticate();
         $tags = $this->tagModel->allTags();
         echo json_encode($tags);
     }
 
     public function allCategories(){
-        // AuthMiddleware::authenticate();
+        AuthMiddleware::authenticate();
         $categories = $this->categoryModel->allCategories();
         echo json_encode($categories);
     }
@@ -58,9 +58,41 @@ Class Main extends Controller{
     }
 
     public function allWikis(){
-        // AuthMiddleware::authenticate();
+        AuthMiddleware::authenticate();
         $wikis = $this->wikiModel->getAllWikis();
         echo json_encode($wikis);
+    }
+
+    public function myWiki($userId){
+        // AuthMiddleware::authenticate();
+        $myWiki = $this->wikiModel->getMyWiki($userId);
+        echo json_encode($myWiki);
+    }
+
+    public function editWiki($wikiId){
+        // AuthMiddleware::authenticate();
+        if ($_SERVER['REQUEST_METHOD'] == 'PUT') {
+            $postData = file_get_contents("php://input");
+            $data = json_decode($postData, true);
+            if ($data !== null && !empty($data['title']) && !empty($data['content']) && !empty($data['wikiId'])
+                 
+                ) {
+                    $editedWiki =$this->wikiModel->editMyWiki($data );
+                    if($editedWiki){
+                        echo json_encode(['message' => 'Wiki edited Succe']);
+                    }
+                    else{
+                        echo json_encode(['error' => 'editing Failed']);
+                    } 
+                
+            }
+            else {
+               
+                http_response_code(400); 
+                echo json_encode(['error' => 'Invalid JSON payload']);
+            }
+        }
+
     }
 
     
