@@ -64,13 +64,13 @@ Class Main extends Controller{
     }
 
     public function myWiki($userId){
-        // AuthMiddleware::authenticate();
+        AuthMiddleware::authenticate();
         $myWiki = $this->wikiModel->getMyWiki($userId);
         echo json_encode($myWiki);
     }
 
     public function editWiki($wikiId){
-        // AuthMiddleware::authenticate();
+        AuthMiddleware::authenticate();
         if ($_SERVER['REQUEST_METHOD'] == 'PUT') {
             $postData = file_get_contents("php://input");
             $data = json_decode($postData, true);
@@ -95,7 +95,28 @@ Class Main extends Controller{
 
     }
 
-    
+    public function deleteWiki($wikiId){
+        AuthMiddleware::authenticate();
+        if ($_SERVER['REQUEST_METHOD'] == 'DELETE') {
+            
+
+            $deletedWiki =$this->wikiModel->deleteMyWiki($wikiId);
+            if($deletedWiki){
+                echo json_encode(['message' => 'Wiki deleted Succe']);
+            }
+            else{
+                echo json_encode(['error' => 'delete Failed']);
+            } 
+                
+            
+        }
+    }
+
+    public function wikiById($wikiId){
+        // AuthMiddleware::authenticate();
+        $wiki = $this->wikiModel->getWikiById($wikiId);
+        echo json_encode($wiki);
+    }
    
     
 
