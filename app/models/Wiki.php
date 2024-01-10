@@ -96,18 +96,52 @@ Class Wiki{
     }
 
     public function editMyWiki($data){
-        $this->db->query("UPDATE wiki SET title = :title , content = :content WHERE id = :id");
+        $this->db->query("UPDATE wiki SET title = :title , content = :content , updated_at = NOW() WHERE id = :id");
         $this->db->bind(":title" , $data['title']);
         $this->db->bind(":content" , $data['content']);
+        // $this->db->bind(":updated_at" , );
         $this->db->bind(":id" , $data['wikiId']);
         return $this->db->execute();
     }
 
     
 
-    // public function deleteTag($data){
-    //     $this->db->query("DELETE FROM tag WHERE id = :id");
-    //     $this->db->bind(":id" , $data["id"]);
-    //     return $this->db->execute();
-    // }
+    public function deleteMyWiki($wikiId){
+        $this->db->query("DELETE FROM wiki WHERE wiki.id = :wikiId");
+        $this->db->bind(":wikiId" , $wikiId);
+        return $this->db->execute();
+    }
+
+    public function getWikiById($wikiId){
+        $this->db->query("
+        SELECT
+        DISTINCT wiki.*,
+        user.id as creatorId,
+        user.email as creatorEmail,
+        user.full_name as creatorName,
+        user.imgUrl as creatorImg,
+        category.name as category,
+        GROUP_CONCAT(DISTINCT tag.name) as tags
+    FROM
+        wiki
+    JOIN category ON wiki.category_id = category.id
+    INNER JOIN wiki_tag ON wiki.id = wiki_tag.wiki_id
+    INNER JOIN tag ON wiki_tag.tag_id = tag.id
+    INNER JOIN user ON wiki.created_by = user.id
+    AND wiki.id=:wikiId
+    GROUP BY
+        wiki.id,
+        wiki.title,
+        wiki.content,
+        wiki.created_at,
+        creatorId,
+        creatorName,
+        creatorImg,
+        category,
+        status;
+        
+        ");
+        $this->db->bind(":wikiId" , $wikiId);
+        return $this->db->resultSet();
+    }
 }
