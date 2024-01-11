@@ -5,12 +5,15 @@ Class Admin extends Controller{
     private $categoryModel;
     private $tagsModel;
 
+    private $wikiModel;
+
     public function __construct(){
        if(!adminIsLoggedIn()){
             $this->view('auth');
        }
        $this->categoryModel = $this->model('Category');
        $this->tagsModel = $this->model('Tag');
+       $this->wikiModel = $this->model('Wiki');
     }
     public function index(){
         
@@ -140,6 +143,12 @@ Class Admin extends Controller{
         $tag = $this->tagsModel->getTagyById($id);
         echo json_encode($tag);
 
+    }
+
+    public function wikiPerCategory(){
+        
+        $wikis = $this->wikiModel->getwikiPerCategory();
+        echo json_encode($wikis);
     }
 
     
