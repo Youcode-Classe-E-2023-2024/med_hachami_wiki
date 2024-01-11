@@ -63,6 +63,18 @@ Class Main extends Controller{
         echo json_encode($wikis);
     }
 
+    public function wikiByCategory($categoryId){
+        AuthMiddleware::authenticate();
+        $wikis = $this->wikiModel->getWikiByCategory($categoryId);
+        echo json_encode($wikis);
+    }
+
+    public function wikiByTag($tagId){
+        AuthMiddleware::authenticate();
+        $wikis = $this->wikiModel->getWikiByTag($tagId);
+        echo json_encode($wikis);
+    }
+
     public function myWiki($userId){
         AuthMiddleware::authenticate();
         $myWiki = $this->wikiModel->getMyWiki($userId);
