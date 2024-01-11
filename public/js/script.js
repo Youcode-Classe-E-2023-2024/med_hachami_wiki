@@ -90,22 +90,39 @@ const setup = () => {
   }
   
 // chart js
+let categoryLabel ;
+let categoryCount;
+  fetch('http://localhost/med_hachami_wiki/Admin/wikiPerCategory', {
+  method: 'GET',
+  headers: {
+      'Content-Type': 'application/json',
+  }
+  })
+  .then(response => response.json())
+  .then(data => {
+     categoryLabel = data.map((category)=>category.category);
+     categoryCount = data.map((category)=>category.wikiCount);
 
-const dataDoughnut = {
-  labels: ["JavaScript", "Python", "Ruby"],
-  datasets: [
-    {
-      label: "My First Dataset",
-      data: [300, 50, 100],
-      backgroundColor: [
-        "rgb(133, 105, 241)",
-        "rgb(164, 101, 241)",
-        "rgb(101, 143, 241)",
+     const dataDoughnut = {
+  
+      labels: categoryLabel,
+      datasets: [
+        {
+          label: "Wiki Per Category",
+          data: categoryCount,
+          backgroundColor: [
+            "rgb(133, 105, 241)",
+            "rgb(164, 101, 241)",
+            "rgb(101, 143, 241)",
+            "rgb(101, 143, 241)",
+            "rgb(211, 143, 241)",
+          ],
+          hoverOffset: 4,
+        },
       ],
-      hoverOffset: 4,
-    },
-  ],
-};
+    };
+
+    
 const configDoughnut = {
   type: "doughnut",
   data: dataDoughnut,
@@ -133,39 +150,9 @@ var chartDoughnut = new Chart(
   document.getElementById("chartDoughnut"),
   configDoughnut
 );
-const dataLine = {
-  labels: ["January", "February", "March", "April", "May"],
-  datasets: [{
-    label: "Monthly Sales",
-    data: [50, 120, 80, 150, 100],
-    borderColor: 'rgba(75, 192, 192, 1)', // Line color
-    borderWidth: 2, // Line width
-    fill: true, // Fill the area under the line
-    backgroundColor: 'rgba(75, 192, 192, 0.2)', // Transparent background color
-  }]
-};
+    
+  })
+.catch(err => console.error('Error:', err));
 
-// Configuration for the line chart
-const configLine = {
-  type: 'line',
-  data: dataLine,
-  options: {
-    scales: {
-      x: {
-        type: 'category', // Use category scale for the x-axis
-        labels: dataLine.labels,
-        barPercentage: 0.2, // Adjust the width of the bars (50% of the available space)
-          categoryPercentage: 0.1, // Adjust the width of the category (40% of the available space)
-          grid: {
-            display: false, // Disable the grid for better appearance
-          },
-      },
-      y: {
-        beginAtZero: true,
-      },
-    },
-  },
-};
 
-// Create a new line chart instance
-var lineChart = new Chart(document.getElementById('lineChart'), configLine);
+
