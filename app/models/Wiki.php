@@ -21,6 +21,7 @@ Class Wiki{
             INNER JOIN wiki_tag ON wiki.id = wiki_tag.wiki_id
             INNER JOIN tag ON wiki_tag.tag_id = tag.id
             INNER JOIN user ON wiki.created_by = user.id
+            AND wiki.status = :status
             GROUP BY
                 wiki.id,
                 wiki.title,
@@ -30,10 +31,11 @@ Class Wiki{
                 creatorName,
                 creatorImg,
                 category,
-                status;
+                status
+            ORDER BY wiki.updated_at desc
 
         ");
-
+        $this->db->bind(":status" , 0);
         return $this->db->resultSet();
     }
     public function getMyWiki($userId){
@@ -142,6 +144,76 @@ Class Wiki{
         
         ");
         $this->db->bind(":wikiId" , $wikiId);
+        return $this->db->resultSet();
+    }
+
+    public function getWikiByCategory($categoryId){
+        $this->db->query("
+                SELECT
+                DISTINCT wiki.*,
+                user.id as creatorId,
+                user.full_name as creatorName,
+                user.imgUrl as creatorImg,
+                category.name as category,
+                GROUP_CONCAT(DISTINCT tag.name) as tags
+            FROM
+                wiki
+            JOIN category ON wiki.category_id = category.id
+            INNER JOIN wiki_tag ON wiki.id = wiki_tag.wiki_id
+            INNER JOIN tag ON wiki_tag.tag_id = tag.id
+            INNER JOIN user ON wiki.created_by = user.id
+            AND wiki.status = :status
+            AND wiki.category_id = :category_id
+            GROUP BY
+                wiki.id,
+                wiki.title,
+                wiki.content,
+                wiki.created_at,
+                creatorId,
+                creatorName,
+                creatorImg,
+                category,
+                status
+            ORDER BY wiki.updated_at desc
+
+        ");
+        $this->db->bind(":status" , 0);
+        $this->db->bind(":category_id" , $categoryId);
+        return $this->db->resultSet();
+    }
+
+    public function getWikiByTag($tag){
+        $this->db->query("
+                SELECT
+                DISTINCT wiki.*,
+                user.id as creatorId,
+                user.full_name as creatorName,
+                user.imgUrl as creatorImg,
+                category.name as category,
+                GROUP_CONCAT(DISTINCT tag.name) as tags
+            FROM
+                wiki
+            JOIN category ON wiki.category_id = category.id
+            INNER JOIN wiki_tag ON wiki.id = wiki_tag.wiki_id
+            INNER JOIN tag ON wiki_tag.tag_id = tag.id
+            INNER JOIN user ON wiki.created_by = user.id
+            AND wiki.status = :status
+            AND tag.id = :tag_id
+            GROUP BY
+                wiki.id,
+                wiki.title,
+                wiki.content,
+                wiki.created_at,
+                creatorId,
+                creatorName,
+                creatorImg,
+                category,
+                status
+            ORDER BY wiki.updated_at desc
+
+        ");
+        $this->db->bind(":status" , 0);
+        $this->db->bind(":tag_id" , $tag);
         return $this->db->resultSet();
     }
 }
