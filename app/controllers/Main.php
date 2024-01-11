@@ -63,17 +63,31 @@ Class Main extends Controller{
         echo json_encode($wikis);
     }
 
-    public function wikiByCategory($categoryId){
+    public function filter($category = 'all' , $tag = 'all'){
         AuthMiddleware::authenticate();
-        $wikis = $this->wikiModel->getWikiByCategory($categoryId);
-        echo json_encode($wikis);
+        switch (true) {
+            case ($category === 'all' && $tag === 'all'):
+                $wikis = $this->wikiModel->getAllWikis();
+                echo json_encode($wikis);
+                break;
+            case ($category === 'all' && $tag != 'all'):
+                $wikis = $this->wikiModel->getWikiByTag($tag);
+                echo json_encode($wikis);
+                break;
+            case ($category != 'all' && $tag === 'all'):
+                $wikis = $this->wikiModel->getWikiByCategory($category);
+                echo json_encode($wikis);
+                break;
+            case ($category != 'all' && $tag != 'all'):
+                $wikis = $this->wikiModel->getWikiByCategoryAndTag($category , $tag);
+                echo json_encode($wikis);
+                break;
+            default:
+                # code...
+                break;
+        }
     }
 
-    public function wikiByTag($tagId){
-        AuthMiddleware::authenticate();
-        $wikis = $this->wikiModel->getWikiByTag($tagId);
-        echo json_encode($wikis);
-    }
 
     public function myWiki($userId){
         AuthMiddleware::authenticate();
