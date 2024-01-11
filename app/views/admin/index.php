@@ -85,20 +85,11 @@
             <!--End  Users card -->
           <!--End  State cards -->
           </div>
-          <div class="flex justify-around mt-4">
-              <div class="overflow-hidden">
-                
-                <canvas class="chartCanvas" id="lineChart" style="background-color: #fff; position: relative;left: 15px;width: 100%;height: 400px;">
-
-                </canvas>
-              </div>
-              <div class="overflow-hidden">
-                
-                <canvas class="chartCanvas" id="chartDoughnut" style="position: relative;left: 15px;width: 600px;height: 400px;">
-
-                </canvas>
-              </div>
-              
+          <div class="chart-container mt-4">
+            <div class="flex flex-col justify-center items-center	gap-8">
+              <h1 class="text-xl">hello</h1>
+              <canvas class="chartCanvas" id="chartDoughnut" ></canvas>
+            </div>
           </div>
         </div>
         
