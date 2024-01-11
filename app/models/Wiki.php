@@ -216,4 +216,52 @@ Class Wiki{
         $this->db->bind(":tag_id" , $tag);
         return $this->db->resultSet();
     }
+
+    public function getWikiByCategoryAndTag($category , $tag){
+        $this->db->query("
+                SELECT
+                DISTINCT wiki.*,
+                user.id as creatorId,
+                user.full_name as creatorName,
+                user.imgUrl as creatorImg,
+                category.name as category,
+                GROUP_CONCAT(DISTINCT tag.name) as tags
+            FROM
+                wiki
+            JOIN category ON wiki.category_id = category.id
+            INNER JOIN wiki_tag ON wiki.id = wiki_tag.wiki_id
+            INNER JOIN tag ON wiki_tag.tag_id = tag.id
+            INNER JOIN user ON wiki.created_by = user.id
+            AND wiki.status = :status
+            AND tag.id = :tag_id
+            AND  wiki.category_id = :category_id
+            GROUP BY
+                wiki.id,
+                wiki.title,
+                wiki.content,
+                wiki.created_at,
+                creatorId,
+                creatorName,
+                creatorImg,
+                category,
+                status
+            ORDER BY wiki.updated_at desc
+
+        ");
+        $this->db->bind(":status" , 0);
+        $this->db->bind(":tag_id" , $tag);
+        $this->db->bind(":category_id" , $category);
+        return $this->db->resultSet();
+    }
+
+    public function getwikiPerCategory(){
+        $this->db->query("
+        SELECT category.name as category, COUNT(wiki.id) as wikiCount
+         FROM category
+          LEFT JOIN wiki ON category.id = wiki.category_id
+           GROUP BY category.id, category.name;
+        
+        ");
+        return $this->db->resultSet();
+    }
 }
