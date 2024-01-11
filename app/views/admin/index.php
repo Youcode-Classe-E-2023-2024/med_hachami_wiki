@@ -81,10 +81,25 @@
                 </span>
               </div>
             </div>
+           
             <!--End  Users card -->
           <!--End  State cards -->
           </div>
-          
+          <div class="flex justify-around mt-4">
+              <div class="overflow-hidden">
+                
+                <canvas class="chartCanvas" id="lineChart" style="background-color: #fff; position: relative;left: 15px;width: 100%;height: 400px;">
+
+                </canvas>
+              </div>
+              <div class="overflow-hidden">
+                
+                <canvas class="chartCanvas" id="chartDoughnut" style="position: relative;left: 15px;width: 600px;height: 400px;">
+
+                </canvas>
+              </div>
+              
+          </div>
         </div>
         
       </main>
@@ -94,5 +109,6 @@
       </div>
     </div>
     <!-- All javascript code in this project for now is just for demo DON'T RELY ON IT  -->
- 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <?php require APPROOT . '/views/inc/footerAdmin.php'; ?>
