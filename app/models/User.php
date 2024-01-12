@@ -52,4 +52,13 @@ Class User{
         }
         
       }
+
+      public function getNumOfUsers(){
+        $this->db->query("SELECT * FROM user WHERE roleId = :roleId ;");
+        $this->db->bind(":roleId",2);
+        $this->db->execute();
+        return $this->db->rowCount();
+      }
+
+
 }
