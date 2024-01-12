@@ -81,8 +81,9 @@ Class Users extends Controller{
         unset($_SESSION['fullName']);
         unset($_SESSION['email']);
         unset($_SESSION['roleId']);
+        unset($_SESSION['userImg']);
         session_destroy();
-        // $this->view('auth');
+        
         redirect("users");
     }
 
