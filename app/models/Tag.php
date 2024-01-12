@@ -37,4 +37,11 @@ Class Tag{
         $this->db->bind(":id" , $data["id"]);
         return $this->db->execute();
     }
+
+    public function getNumOfTag(){
+        $this->db->query("SELECT id FROM tag ;");
+        
+        $this->db->execute();
+        return $this->db->rowCount();
+    }
 }
