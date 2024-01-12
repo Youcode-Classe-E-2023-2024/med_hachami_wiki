@@ -66,7 +66,7 @@
                     class="transition-opacity duration-200 rounded-full dark:opacity-75 dark:hover:opacity-100 focus:outline-none focus:ring dark:focus:opacity-100"
                   >
                     <span class="sr-only">User menu</span>
-                    <img class="w-10 h-10 rounded-full" src="<?= URLROOT . '/img/users/' . $_SESSION['userImg']  ?>" />
+                    <img class="w-10 h-10 rounded-full" src="<?= URLROOT . '/store/' . $_SESSION['userImg']  ?>" />
 
                   </button>
 
@@ -138,7 +138,7 @@
                     class="block transition-opacity duration-200 rounded-full dark:opacity-75 dark:hover:opacity-100 focus:outline-none focus:ring dark:focus:opacity-100"
                   >
                     <span class="sr-only">User menu</span>
-                    <img class="w-10 h-10 rounded-full" src="../build/images/avatar.jpg" alt="Ahmed Kamel" />
+                    <img class="w-10 h-10 rounded-full" src="<?= URLROOT . '/store/' . $_SESSION['userImg']  ?>" alt="<?=  $_SESSION['fullName']  ?>" />
                   </button>
 
                   <!-- User dropdown menu -->
@@ -254,6 +254,13 @@
                       class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md dark:hover:text-light hover:text-gray-700"
                     >
                     Tags
+                    </a>
+                    <a
+                      href="<?php echo URLROOT . '/admin/wiki' ?>"
+                      role="menuitem"
+                      class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md dark:hover:text-light hover:text-gray-700"
+                    >
+                    Wiki
                     </a>
 
                   </div>
