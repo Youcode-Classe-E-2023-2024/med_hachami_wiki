@@ -38,6 +38,38 @@ Class Wiki{
         $this->db->bind(":status" , 0);
         return $this->db->resultSet();
     }
+    public function getAllArchivedWikis(){
+        $this->db->query("
+                SELECT
+                DISTINCT wiki.*,
+                user.id as creatorId,
+                user.full_name as creatorName,
+                user.imgUrl as creatorImg,
+                category.name as category,
+                GROUP_CONCAT(DISTINCT tag.name) as tags
+            FROM
+                wiki
+            JOIN category ON wiki.category_id = category.id
+            INNER JOIN wiki_tag ON wiki.id = wiki_tag.wiki_id
+            INNER JOIN tag ON wiki_tag.tag_id = tag.id
+            INNER JOIN user ON wiki.created_by = user.id
+            AND wiki.status = :status
+            GROUP BY
+                wiki.id,
+                wiki.title,
+                wiki.content,
+                wiki.created_at,
+                creatorId,
+                creatorName,
+                creatorImg,
+                category,
+                status
+            ORDER BY wiki.updated_at desc
+
+        ");
+        $this->db->bind(":status" , 1);
+        return $this->db->resultSet();
+    }
     public function getMyWiki($userId){
         $this->db->query("
         SELECT
@@ -103,6 +135,20 @@ Class Wiki{
         $this->db->bind(":content" , $data['content']);
         // $this->db->bind(":updated_at" , );
         $this->db->bind(":id" , $data['wikiId']);
+        return $this->db->execute();
+    }
+
+    public function archiveWiki($id){
+        $this->db->query("UPDATE wiki SET status = :status WHERE id = :id");
+        $this->db->bind(":status" ,1);
+        $this->db->bind(":id" ,$id);
+        return $this->db->execute();
+    }
+
+    public function retrieveWiki($id){
+        $this->db->query("UPDATE wiki SET status = :status WHERE id = :id");
+        $this->db->bind(":status" ,0);
+        $this->db->bind(":id" ,$id);
         return $this->db->execute();
     }
 
@@ -263,5 +309,29 @@ Class Wiki{
         
         ");
         return $this->db->resultSet();
+    }
+
+    public function getwikiPerTags(){
+        $this->db->query("
+                SELECT
+            tag.name as tag,
+            COUNT(wiki.id) as wikiCount
+        FROM
+            tag
+        LEFT JOIN  wiki_tag ON tag.id = wiki_tag.tag_id
+        LEFT JOIN  wiki ON wiki_tag.wiki_id = wiki.id
+        GROUP BY
+            tag.id, tag.name;
+
+        
+        ");
+        return $this->db->resultSet();
+    }
+
+    public function getNumOfWiki(){
+        $this->db->query("SELECT * FROM wiki WHERE status = :status ;");
+        $this->db->bind(":status",0);
+        $this->db->execute();
+        return $this->db->rowCount();
     }
 }
