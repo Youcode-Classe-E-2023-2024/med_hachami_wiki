@@ -154,10 +154,15 @@
   width: 98%;
   margin: 40px auto;
   display: flex;
-  justify-content: flex-start;
+  flex-wrap: wrap;
+  justify-content:center;
+  gap: 30rem;
   
 }
   .chartCanvas{
-    width: 400px;
+    width: 50%;
     height: 400px;
+    /* border: 1px solid red; */
   }
+
+ 
