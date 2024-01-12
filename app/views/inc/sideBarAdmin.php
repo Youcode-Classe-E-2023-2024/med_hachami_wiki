@@ -20,7 +20,14 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-
+  <style>
+     table.dataTable th.dt-center,
+      table.dataTable td.dt-center,
+      table.dataTable td.dataTables_empty {
+        text-align: center;
+        color: #000;
+      }
+  </style>
   </head>
 <body>
     <div x-data="setup()" x-init="$refs.loading.classList.add('hidden'); setColors(color);" :class="{ 'dark': isDark}" style="background-color: #152e4d;">
@@ -104,6 +111,13 @@
                     class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md dark:hover:text-light hover:text-gray-700"
                   >
                   Tags
+                  </a>
+                  <a
+                    href="<?php echo URLROOT . '/admin/wiki' ?>"
+                    role="menuitem"
+                    class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md dark:hover:text-light hover:text-gray-700"
+                  >
+                  Wiki
                   </a>
 
                 </div>
