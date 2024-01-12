@@ -6,6 +6,7 @@ Class Admin extends Controller{
     private $tagsModel;
 
     private $wikiModel;
+    private $userModel;
 
     public function __construct(){
        if(!adminIsLoggedIn()){
@@ -14,10 +15,20 @@ Class Admin extends Controller{
        $this->categoryModel = $this->model('Category');
        $this->tagsModel = $this->model('Tag');
        $this->wikiModel = $this->model('Wiki');
+       $this->userModel = $this->model('User');
     }
     public function index(){
-        
-          return $this->view('admin/index');
+        $numOfUser = $this->userModel->getNumOfUsers();
+        $numOfWiki = $this->wikiModel->getNumOfWiki();
+        $numOfTag = $this->tagsModel->getNumOfTag();
+        $numOfCategory = $this->categoryModel->getNumOfCategory();
+        $data=[
+            'numOfWikis'=>$numOfWiki,
+            'numOfUser'=>$numOfUser,
+            'numOfTag'=>$numOfTag,
+            'numOfCategory'=>$numOfCategory
+        ];
+          return $this->view('admin/index' , $data);
     }
 
     public function categories(){
@@ -77,6 +88,7 @@ Class Admin extends Controller{
         
     }
     public function tags(){
+
         $tags = $this->tagsModel->allTags();
         $data=[
             'tags'=>$tags
@@ -133,6 +145,11 @@ Class Admin extends Controller{
         
     }
 
+    public function wiki(){
+
+        $this->view("admin/wiki");
+    }
+
     public function category($id){
         $category = $this->categoryModel->getCategoryById($id);
         echo json_encode($category);
@@ -151,6 +168,45 @@ Class Admin extends Controller{
         echo json_encode($wikis);
     }
 
+    public function wikiPerTags(){
+        
+        $wikis = $this->wikiModel->getwikiPerTags();
+        echo json_encode($wikis);
+    }
+
+    // consomation
+    public function allWikis(){
+        
+        $wikis = $this->wikiModel->getAllWikis();
+        echo json_encode($wikis);
+    }
+    // consomation
+    public function archivedWik(){
+        $wikis = $this->wikiModel->getAllArchivedWikis();
+        echo json_encode($wikis);
+    }
+
+    
+    public function archiveWiki(){
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $wikiId = $_POST['wikiID'];
+            $archiveWiki = $this->wikiModel->archiveWiki($wikiId);
+
+            return $this->view('admin/wiki');
+
+        }
+    }
+
+    public function retrieve(){
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $wikiId = $_POST['archiWikiID'];
+            
+            $archiveWiki = $this->wikiModel->retrieveWiki($wikiId);
+
+            return $this->view('admin/wiki');
+
+        }
+    }
     
    
     
