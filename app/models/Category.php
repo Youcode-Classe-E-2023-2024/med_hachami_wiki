@@ -37,4 +37,10 @@ Class Category{
         $this->db->bind(":id" , $data["id"]);
         return $this->db->execute();
     }
+    public function getNumOfCategory(){
+        $this->db->query("SELECT id FROM category ;");
+        
+        $this->db->execute();
+        return $this->db->rowCount();
+    }
 }
