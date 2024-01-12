@@ -24,9 +24,9 @@
                 <h6
                   class="text-xs font-medium leading-none tracking-wider text-gray-500 uppercase dark:text-primary-light"
                 >
-                  Publications 
+                  Wiki's 
                 </h6>
-                <span class="text-xl font-semibold"><?php echo $_SESSION['fullName'] ?></span>
+                <span class="text-xl font-semibold"><?php echo $data['numOfWikis'] ?></span>
                 
               </div>
               <div>
@@ -59,7 +59,7 @@
                 >
                   Users
                 </h6>
-                <span class="text-xl font-semibold">22</span>
+                <span class="text-xl font-semibold"><?php echo $data['numOfUser'] ?></span>
                 
               </div>
               <div>
@@ -81,14 +81,82 @@
                 </span>
               </div>
             </div>
+            <!-- Value card -->
+            <div class="flex items-center justify-between p-4 bg-white rounded-md dark:bg-darker">
+              <div>
+                <h6
+                  class="text-xs font-medium leading-none tracking-wider text-gray-500 uppercase dark:text-primary-light"
+                >
+                  Tags
+                </h6>
+                <span class="text-xl font-semibold"><?php echo $data['numOfTag'] ?></span>
+                
+              </div>
+              <div>
+                <span>
+                <svg 
+                    xmlns="http://www.w3.org/2000/svg"
+                     fill="none" viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                       stroke="currentColor" 
+                       class="w-12 h-12 text-gray-300 dark:text-primary-dark">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6Z" />
+                </svg>
+
+ 
+
+                </span>
+              </div>
+            </div>
+
+
+            <!--End  Value card -->
+            <!-- Value card -->
+            <div class="flex items-center justify-between p-4 bg-white rounded-md dark:bg-darker">
+              <div>
+                <h6
+                  class="text-xs font-medium leading-none tracking-wider text-gray-500 uppercase dark:text-primary-light"
+                >
+                  Categories
+                </h6>
+                <span class="text-xl font-semibold"><?php echo $data['numOfCategory'] ?></span>
+                
+              </div>
+              <div>
+                <span>
+                <svg 
+                    xmlns="http://www.w3.org/2000/svg"
+                     fill="none" viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                       stroke="currentColor" 
+                       class="w-12 h-12 text-gray-300 dark:text-primary-dark">
+                  <path stroke-linecap="round" 
+                  stroke-linejoin="round" 
+                  d="M2.25 7.125C2.25 6.504 2.754 6 3.375 6h6c.621 0 1.125.504 1.125 1.125v3.75c0 .621-.504 1.125-1.125 1.125h-6a1.125 1.125 0 0 1-1.125-1.125v-3.75ZM14.25 8.625c0-.621.504-1.125 1.125-1.125h5.25c.621 0 1.125.504 1.125 1.125v8.25c0 .621-.504 1.125-1.125 1.125h-5.25a1.125 1.125 0 0 1-1.125-1.125v-8.25ZM3.75 16.125c0-.621.504-1.125 1.125-1.125h5.25c.621 0 1.125.504 1.125 1.125v2.25c0 .621-.504 1.125-1.125 1.125h-5.25a1.125 1.125 0 0 1-1.125-1.125v-2.25Z" />
+
+                </svg>
+
+ 
+
+                </span>
+              </div>
+            </div>
+
+
+            <!--End  Value card -->
            
-            <!--End  Users card -->
+            
           <!--End  State cards -->
           </div>
           <div class="chart-container mt-4">
             <div class="flex flex-col justify-center items-center	gap-8">
-              <h1 class="text-xl">hello</h1>
-              <canvas class="chartCanvas" id="chartDoughnut" ></canvas>
+              <h1 class="text-xl">Wiki Per Category</h1>
+              <canvas class="chartCanvas" id="chartDoughnut1" ></canvas>
+            </div>
+            <div class="flex flex-col justify-center items-center	gap-8">
+              <h1 class="text-xl">Wiki Per Tag</h1>
+              <canvas class="chartCanvas" id="chartDoughnut2" ></canvas>
             </div>
           </div>
         </div>
@@ -103,3 +171,4 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <?php require APPROOT . '/views/inc/footerAdmin.php'; ?>
+
