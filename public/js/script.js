@@ -90,8 +90,7 @@ const setup = () => {
   }
   
 // chart js
-let categoryLabel ;
-let categoryCount;
+
   fetch('http://localhost/med_hachami_wiki/Admin/wikiPerCategory', {
   method: 'GET',
   headers: {
@@ -100,8 +99,8 @@ let categoryCount;
   })
   .then(response => response.json())
   .then(data => {
-     categoryLabel = data.map((category)=>category.category);
-     categoryCount = data.map((category)=>category.wikiCount);
+     let categoryLabel = data.map((category)=>category.category);
+     let categoryCount = data.map((category)=>category.wikiCount);
 
      const dataDoughnut = {
   
@@ -147,12 +146,77 @@ const configDoughnut = {
 };
 
 var chartDoughnut = new Chart(
-  document.getElementById("chartDoughnut"),
+  document.getElementById("chartDoughnut1"),
   configDoughnut
 );
     
   })
 .catch(err => console.error('Error:', err));
 
+
+ 
+// chart js
+
+fetch('http://localhost/med_hachami_wiki/Admin/wikiPerTags', {
+  method: 'GET',
+  headers: {
+      'Content-Type': 'application/json',
+  }
+  })
+  .then(response => response.json())
+  .then(data => {
+     let categoryLabel = data.map((category)=>category.tag);
+     let categoryCount = data.map((category)=>category.wikiCount);
+
+     const dataDoughnut = {
+  
+      labels: categoryLabel,
+      datasets: [
+        {
+          label: "Wiki Per Tag",
+          data: categoryCount,
+          backgroundColor: [
+            "rgb(133, 105, 241)",
+            "rgb(164, 101, 241)",
+            "rgb(101, 143, 241)",
+            "rgb(101, 143, 241)",
+            "rgb(211, 143, 241)",
+          ],
+          hoverOffset: 4,
+        },
+      ],
+    };
+
+    
+const configDoughnut = {
+  type: "doughnut",
+  data: dataDoughnut,
+  options: {
+    plugins: {
+      doughnutlabel: {
+        labels: [
+          {
+            text: 'Chart.js Doughnut Chart',
+            font: {
+              size: 20,
+            },
+            position: 'center',
+          },
+        ],
+      },
+    },
+    width: 600,
+    height: 600,
+    responsive: false, // Disable responsiveness
+  },
+};
+
+var chartDoughnut = new Chart(
+  document.getElementById("chartDoughnut2"),
+  configDoughnut
+);
+    
+  })
+.catch(err => console.error('Error:', err));
 
 
