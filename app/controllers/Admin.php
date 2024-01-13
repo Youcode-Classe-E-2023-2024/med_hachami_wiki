@@ -146,8 +146,29 @@ Class Admin extends Controller{
     }
 
     public function wiki(){
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['retrieve'])) {
+            $wikiId = $_POST['archiWikiID'];
+            
+            $archiveWiki = $this->wikiModel->retrieveWiki($wikiId);
 
+        }else if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['archive'])) {
+            $wikiId = $_POST['wikiID'];
+            $archiveWiki = $this->wikiModel->archiveWiki($wikiId);
+
+        }
         $this->view("admin/wiki");
+    }
+
+    // consommation
+    public function allWikis(){
+        
+        $wikis = $this->wikiModel->getAllWikis();
+        echo json_encode($wikis);
+    }
+    // consommation
+    public function archivedWik(){
+        $wikis = $this->wikiModel->getAllArchivedWikis();
+        echo json_encode($wikis);
     }
 
     public function category($id){
@@ -174,38 +195,30 @@ Class Admin extends Controller{
         echo json_encode($wikis);
     }
 
-    // consomation
-    public function allWikis(){
-        
-        $wikis = $this->wikiModel->getAllWikis();
-        echo json_encode($wikis);
-    }
-    // consomation
-    public function archivedWik(){
-        $wikis = $this->wikiModel->getAllArchivedWikis();
-        echo json_encode($wikis);
-    }
+    
 
     
-    public function archiveWiki(){
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $wikiId = $_POST['wikiID'];
-            $archiveWiki = $this->wikiModel->archiveWiki($wikiId);
+    
 
-            return $this->view('admin/wiki');
+    public function manageUser(){
+        if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['banne'])){
+            $userModel = $this->userModel->banne($_POST['nuserId']);
+            
 
+        }else if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['cancel_banne'])){
+            $userModel = $this->userModel->unBanned($_POST['buserId']);
         }
+        return $this->view("admin/users");
     }
 
-    public function retrieve(){
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $wikiId = $_POST['archiWikiID'];
-            
-            $archiveWiki = $this->wikiModel->retrieveWiki($wikiId);
+    public function notBannedUsers(){
+        $users = $this->userModel->getNotBannedUsers();
+        echo json_encode($users);
+    }
 
-            return $this->view('admin/wiki');
-
-        }
+    public function bannedUsers(){
+        $users = $this->userModel->getBannedUsers();
+        echo json_encode($users);
     }
     
    
