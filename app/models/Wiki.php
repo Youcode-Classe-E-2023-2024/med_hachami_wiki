@@ -329,7 +329,7 @@ Class Wiki{
     }
 
     public function getNumOfWiki(){
-        $this->db->query("SELECT * FROM wiki WHERE status = :status ;");
+        $this->db->query("SELECT id FROM wiki WHERE status = :status ;");
         $this->db->bind(":status",0);
         $this->db->execute();
         return $this->db->rowCount();
