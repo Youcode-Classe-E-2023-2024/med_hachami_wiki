@@ -10,7 +10,7 @@ CLass JwtAuth{
         $tokenId    = base64_encode(random_bytes(32));
         $issuedAt   = time();
         $expire     = $issuedAt + 60 * 60;  // Expire in 1 hour
-        $issuer     = "HELP_DESK";
+        $issuer     = "wiki_app";
         
         $token = [
             'iat'  => $issuedAt,
