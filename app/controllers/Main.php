@@ -18,13 +18,13 @@ Class Main extends Controller{
     }
 
     public function allTags(){
-        AuthMiddleware::authenticate();
+        // AuthMiddleware::authenticate();
         $tags = $this->tagModel->allTags();
         echo json_encode($tags);
     }
 
     public function allCategories(){
-        AuthMiddleware::authenticate();
+        // AuthMiddleware::authenticate();
         $categories = $this->categoryModel->allCategories();
         echo json_encode($categories);
     }
@@ -58,13 +58,13 @@ Class Main extends Controller{
     }
 
     public function allWikis(){
-        AuthMiddleware::authenticate();
+        // AuthMiddleware::authenticate();
         $wikis = $this->wikiModel->getAllWikis();
         echo json_encode($wikis);
     }
 
     public function filter($category = 'all' , $tag = 'all'){
-        AuthMiddleware::authenticate();
+        // AuthMiddleware::authenticate();
         switch (true) {
             case ($category === 'all' && $tag === 'all'):
                 $wikis = $this->wikiModel->getAllWikis();
