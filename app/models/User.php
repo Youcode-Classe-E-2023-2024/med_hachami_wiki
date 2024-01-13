@@ -32,9 +32,9 @@ Class User{
     }
 
     public function login($email, $password){
-        $this->db->query('SELECT * FROM user WHERE email = :email ');
+        $this->db->query('SELECT * FROM user WHERE email = :email AND isBanned = :isBanned');
         $this->db->bind(':email', $email);
-    
+        $this->db->bind(':isBanned',0);
         $row = $this->db->single();
         
         if($row){
@@ -58,6 +58,46 @@ Class User{
         $this->db->bind(":roleId",2);
         $this->db->execute();
         return $this->db->rowCount();
+      }
+
+      public function getNotBannedUsers(){
+        $this->db->query("
+          SELECT id , full_name , email , imgUrl
+          FROM user
+          WHERE roleId = :roleId AND isBanned = :isBanned
+        ");
+        $this->db->bind(":roleId",2);
+        $this->db->bind(":isBanned",0);
+        return $this->db->resultSet();
+      }
+
+      public function getBannedUsers(){
+        $this->db->query("
+          SELECT id , full_name , email , imgUrl
+          FROM user
+          WHERE roleId = :roleId AND isBanned = :isBanned
+        ");
+        $this->db->bind(":roleId",2);
+        $this->db->bind(":isBanned",1);
+        return $this->db->resultSet();
+      }
+
+      public function banne($id){
+        $this->db->query("
+          UPDATE user SET isBanned = :isBanned WHERE id = :id
+        ");
+        $this->db->bind(":isBanned",1);
+        $this->db->bind(":id",$id);
+        return $this->db->execute();
+      }
+
+      public function unBanned($id){
+        $this->db->query("
+          UPDATE user SET isBanned = :isBanned WHERE id = :id
+        ");
+        $this->db->bind(":isBanned",0);
+        $this->db->bind(":id",$id);
+        return $this->db->execute();
       }
 
 
