@@ -319,26 +319,13 @@
                     <!-- active & hover classes 'text-gray-700 dark:text-light' -->
                     <!-- inActive classes 'text-gray-400 dark:text-gray-400' -->
                     <a
-                      href="<?php echo URLROOT . '/admin/users' ?>"
+                      href="<?php echo URLROOT . '/admin/manageUser' ?>"
                       role="menuitem"
                       class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md dark:hover:text-light hover:text-gray-700"
                     >
                       Users
                     </a>
-                    <a
-                      href="<?php echo URLROOT . '/admin/add_Moderator' ?>"
-                      role="menuitem"
-                      class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md dark:hover:text-light hover:text-gray-700"
-                    >
-                    Ajouter Sous Admin
-                    </a>
-                    <a
-                      href="<?php echo URLROOT . '/admin/manage_pemissions' ?>"
-                      role="menuitem"
-                      class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md dark:hover:text-light hover:text-gray-700"
-                    >
-                    Manage Permissions
-                    </a>
+                    
                   </div>
                 </div>
 
